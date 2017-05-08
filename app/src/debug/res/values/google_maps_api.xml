@@ -1,0 +1,24 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=12:01:96:26:D8:E2:9A:4F:7D:14:96:2E:04:09:2E:6C:4F:9B:1B:16%3Beverysight.phoneapp
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    12:01:96:26:D8:E2:9A:4F:7D:14:96:2E:04:09:2E:6C:4F:9B:1B:16
+
+    SHA-1 certificate fingerprint:
+    12:01:96:26:D8:E2:9A:4F:7D:14:96:2E:04:09:2E:6C:4F:9B:1B:16
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBnZO0bEmFgi3XN64zeafdAQSurfdfe4F8</string>
+</resources>
