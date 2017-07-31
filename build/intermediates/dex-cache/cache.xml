@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\3ebe97d85ec5ddf4b722751415aebe2f6192aedc\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bdcc2a9572f18b8c90a3a157cab6cdfc97c6c736">
+        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_f064fbac2ac106f18fa29985ccfb13c0403cf2f4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_f0a653249a8708e0b5e7a168490b0d9ae8da71cc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\81b1d483937599521b1711032967e1637e34d4f4\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="19696dc358ac668e341f28c41e3387d61ccdb81d">
+        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_7fc6cbe4f375c745fafd80adc951dc10ce2173bc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\47ed9686117c0db2ba80fc3d74d762b89cae9387\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_2ab4e3e8e2897cdf57915905d8278e42eeb3838c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\848f01dea81da2750a77eb8d29d876c66da92bbc\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bb115a110992b254f767f337da233071f6f940b8">
+        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_279dd6eecbbc0f6dc79332bcfe280d5bdaa6f1a6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\AppData\Local\Android\sdk\extras\m2repository\com\android\support\constraint\constraint-layout-solver\1.0.2\constraint-layout-solver-1.0.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\constraint-layout-solver-1.0.2_7daeb1bd7ecc119b0b8d990f32edbbc5258406c4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\883c1aa401497c481763682d4b7227ff7f2ee5ed\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c7626a9aa507bbbdc16188bc9a9f9bf3370c1ddd">
+        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_9920b2cfac862909b999449b7c83951b859fda07\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ac311a7d4afaf17d81c79059e589912b98254f65">
+        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_21940d92b3809e36824313786a49b5b9be5a20ac\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\f2cd0f74cac43e0c0234db595356bdc5ecff29d1\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6003d64df88a6ce5e961fa2bad7f1b9b97689ac1">
+        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_ce68f27a13bb9618aee6c4647c2e2eaa8c9a1893\classes.dex" />
+    </item>
+
+</items>

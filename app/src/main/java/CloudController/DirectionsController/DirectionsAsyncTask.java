@@ -1,13 +1,12 @@
 package CloudController.DirectionsController;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Pair;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
-import com.google.maps.model.DirectionsResult;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,7 +14,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -27,6 +25,12 @@ import javax.net.ssl.HttpsURLConnection;
 public class DirectionsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
     private Context context;
     private RouteParameters routeParameters = null;
+    private Activity mCaller;
+
+    public DirectionsAsyncTask(Activity caller)
+    {
+        mCaller = caller;
+    }
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
@@ -92,18 +96,12 @@ public class DirectionsAsyncTask extends AsyncTask<Pair<Context, String>, Void, 
     }
 
     @Override
-    protected void onPostExecute(String result) {
-        try {
-            Gson gson = new Gson();
-            JsonReader reader = new JsonReader(new StringReader(result));
-            reader.setLenient(true);
-            DirectionsResult dr = gson.fromJson(reader, DirectionsResult.class);
-            Toast.makeText(context, dr.routes[0].summary, Toast.LENGTH_LONG).show();
-        }
-        catch(Exception exception){
-            System.out.print(exception.toString());
-        }
-
+    protected void onPostExecute(String result)
+    {
+            Intent data = new Intent();
+            data.putExtra("Result",result);
+            mCaller.setResult(mCaller.RESULT_OK,data);
+            mCaller.finish();
     }
 
     public void setRouteParameters(RouteParameters routeParameters)

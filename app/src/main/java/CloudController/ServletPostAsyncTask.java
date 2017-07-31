@@ -1,7 +1,9 @@
 package CloudController;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,7 +20,7 @@ import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 
 public class ServletPostAsyncTask extends AsyncTask<Pair<Object, String>, Void, String> {
-    //private Context context;
+    private Context context;
     private URL url;
 
     @Override
@@ -88,6 +90,6 @@ public class ServletPostAsyncTask extends AsyncTask<Pair<Object, String>, Void, 
 
     @Override
     protected void onPostExecute(String result) {
-           // Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+            Toast.makeText(context, result, Toast.LENGTH_LONG).show();
     }
 }

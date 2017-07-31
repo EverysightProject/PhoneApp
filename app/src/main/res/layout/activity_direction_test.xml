@@ -6,4 +6,61 @@
     android:layout_height="match_parent"
     tools:context="everysight.phoneapp.DirectionTest">
 
+    <RelativeLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <Button
+            android:id="@+id/Send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/Distance"
+            android:layout_below="@+id/Distance"
+            android:layout_marginTop="36dp"
+            android:onClick="onClickSend"
+            android:text="Send" />
+
+        <EditText
+            android:id="@+id/Distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Left"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="36dp"
+            android:hint="Distance" />
+
+        <Button
+            android:id="@+id/Forward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:onClick="onClickForward"
+            android:text="Forward"
+            android:background="@android:color/white"/>
+
+        <Button
+            android:id="@+id/Right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/Left"
+            android:layout_toEndOf="@+id/Forward"
+            android:onClick="onClickRight"
+            android:text="Right"
+            android:background="@android:color/white"/>
+
+        <Button
+            android:id="@+id/Left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Forward"
+            android:background="@android:color/white"
+            android:layout_marginTop="25dp"
+            android:layout_toStartOf="@+id/Distance"
+            android:onClick="onClickLeft"
+            android:text="Left" />
+    </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>

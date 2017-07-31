@@ -4,98 +4,7 @@
     android:id="@+id/map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:layout="@layout/options">
-
-    <RelativeLayout
-        android:id="@+id/options"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:visibility="invisible">
-
-
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/editText2"
-            android:layout_below="@+id/editText2"
-            android:layout_marginTop="10dp"
-            android:background="@android:drawable/editbox_background"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Destination" />
-
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="45dp"
-            android:background="@android:drawable/editbox_background"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Current Location" />
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="70dp"
-            android:layout_height="80dp"
-            android:layout_alignBottom="@+id/editText"
-            android:layout_alignTop="@+id/editText2"
-            android:layout_toStartOf="@+id/editText"
-            android:src="@drawable/way" />
-
-        <android.support.design.widget.TabLayout
-            android:background="@android:color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
-            android:layout_below="@+id/imageView7"
-            android:layout_alignParentStart="true">
-
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/carcolor"/>
-
-
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/buscolor" />
-
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/walkingcolor" />
-
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/cyclingcolor" />
-        </android.support.design.widget.TabLayout>
-
-        <android.support.design.internal.ForegroundLinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="198dp"
-            android:background="@android:color/white">
-        </android.support.design.internal.ForegroundLinearLayout>
-
-        <Button
-            android:id="@+id/GetDirections"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
-            android:onClick="onGetDirectionsButtonClick"
-            android:text="Get Directions" />
-    </RelativeLayout>
-
+    android:layout_height="match_parent">
 
     <ImageButton
         android:id="@+id/DirectionsButton"
@@ -105,6 +14,26 @@
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/sign"
-        android:onClick="onDirectionsButtonClick" />/>
+        android:onClick="onDirectionsButtonClick" />
+
+    <ImageButton
+        android:id="@+id/BluetoothButton"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="right|top"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/bluetooth"
+        android:onClick="onBluetoothButtonClick" />
+
+    <ImageButton
+        android:id="@+id/JoystickButton"
+        android:layout_width="70dp"
+        android:layout_height="140dp"
+        android:layout_gravity="left|bottom"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/joystick"
+        android:onClick="onJoystickButtonCick" />
 
 </fragment>

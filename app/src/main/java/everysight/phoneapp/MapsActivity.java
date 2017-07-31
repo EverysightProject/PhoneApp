@@ -1,21 +1,20 @@
 package everysight.phoneapp;
 
 import android.Manifest;
-import android.content.Context;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -30,9 +29,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
+import com.google.maps.model.DirectionsResult;
 
-import CloudController.DirectionsController.DirectionsAsyncTask;
-import CloudController.DirectionsController.RouteParameters;
+import java.io.StringReader;
+
+import BluetoothConnection.ConnectThread;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
                                                 GoogleApiClient.ConnectionCallbacks,
@@ -40,8 +43,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                                                                 LocationListener {
 
     private static final int REQUEST_LOCATION = 0;
+    private static final int REQUEST_ENABLE_BT = 1 ;
+    private static final int REQUEST_CONNECT_DEVICE_SECURE = 2 ;
+    private static final int REQUEST_DIRECTIONS = 3;
     private GoogleMap mMap;
-    private boolean isMenuUp = false;
 
     private GoogleApiClient mGoogleApiClient;
     public static final String TAG = MapsActivity.class.getSimpleName();
@@ -52,6 +57,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String Destination = "";
 
     private Location location;
+    private BluetoothAdapter mBluetoothAdapter;
+    private Handler mBThandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,24 +79,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
-                .setFastestInterval(1 * 1000); // 1 second, in milliseconds
+                .setFastestInterval(1000); // 1 second, in milliseconds
 
-
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            Log.i(TAG,"Device does not support Bluetooth");
+        }
+        mBThandler = new Handler();
     }
-//        new DirectionsAsyncTask().execute(new Pair<Context, String>(this, ""),
-//                                          new Pair<Context, String>(this, "Sydney, AU"),
-//                                          new Pair<Context, String>(this, "Melbourne, AU"));
-
-//        DirectionsAsyncTask directionsAsyncTask = new DirectionsAsyncTask();
-//        RouteParameters routeParameters = new RouteParameters("Sydney, AU","Melbourne, AU");
-//        routeParameters.setAlternatives(true);
-//        directionsAsyncTask.setRouteParameters(routeParameters);
-//        directionsAsyncTask.execute(new Pair<Context, String>(this, ""));
 
     @Override
     protected void onResume() {
         super.onResume();
         mGoogleApiClient.connect();
+        if (!mBluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }
     }
 
     @Override
@@ -157,9 +163,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        handleNewLocation(location);
+    }
+
+    @Override
+    public void onActivityResult (int requestCode, int resultCode, Intent data)
+    {
+        if(requestCode==REQUEST_CONNECT_DEVICE_SECURE)
+        {
+            String address = data.getExtras()
+                    .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+            // Get the BluetoothDevice object
+            BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+            ConnectThread connectThread = new ConnectThread(device, mBThandler);
+            connectThread.start();
+        }
+
+        if(requestCode == REQUEST_DIRECTIONS && resultCode == RESULT_OK)
+        {
+            try
+            {
+                Gson gson = new Gson();
+                JsonReader reader = new JsonReader(new StringReader(data.getExtras().getString("Result")));
+                reader.setLenient(true);
+                DirectionsResult dr = gson.fromJson(reader, DirectionsResult.class);
+                HandleRoute(dr);
+            }
+            catch(Exception exception)
+            {
+                System.out.print(exception.toString());
+            }
+        }
+    }
+
     private void handleNewLocation(Location location) {
         Log.d(TAG, location.toString());
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 13));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 13));
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Sets the center of the map to location user
@@ -169,11 +210,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(location.getLatitude(), location.getLongitude()))
                 .title("You are here"));
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        handleNewLocation(location);
     }
 
     public void onRequestPermissionsResult(int requestCode,
@@ -195,55 +231,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onDirectionsButtonClick(View v)
     {
-        RelativeLayout optionsLayout = (RelativeLayout) findViewById(R.id.options);
-        optionsLayout.setVisibility(View.VISIBLE);
-        ImageButton button = (ImageButton) findViewById(R.id.DirectionsButton);
-        button.setVisibility(View.INVISIBLE);
-        isMenuUp = true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (isMenuUp)
+        try {
+            Intent serverIntent = new Intent(this, DirectionsSettingsActivity.class);
+            startActivityForResult(serverIntent, REQUEST_DIRECTIONS);
+        }
+        catch( Exception e)
         {
-            RelativeLayout optionsLayout = (RelativeLayout) findViewById(R.id.options);
-            optionsLayout.setVisibility(View.INVISIBLE);
-            ImageButton button = (ImageButton) findViewById(R.id.DirectionsButton);
-            button.setVisibility(View.VISIBLE);
-            isMenuUp = false;
+            Log.e(TAG,e.toString());
         }
     }
 
-    public void onGetDirectionsButtonClick(View v)
+    public void onBluetoothButtonClick(View v)
     {
-        EditText locationInput = (EditText) findViewById(R.id.editText2);
-        EditText destinationInput = (EditText) findViewById(R.id.editText);
-
-        String locInput = locationInput.getText().toString();
-        String destInput = destinationInput.getText().toString();
-
-        if (destInput == "Destination")
-        {
-            Context context = getApplicationContext();
-            CharSequence text = "Please Enter Destination!";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-            return;
+        try {
+            Intent serverIntent = new Intent(this, DeviceListActivity.class);
+            startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
         }
-
-        DirectionsAsyncTask directionsAsyncTask = new DirectionsAsyncTask();
-        RouteParameters routeParameters = new RouteParameters(locInput,destInput);
-        if(locInput == "" )
+        catch( Exception e)
         {
-            routeParameters.setOriginName(locInput);
-            routeParameters.setOrigin(new com.google.maps.model.LatLng(location.getLatitude(),location.getLongitude()));
+            Log.e(TAG,e.toString());
         }
-
-        routeParameters.setAlternatives(true);
-        directionsAsyncTask.setRouteParameters(routeParameters);
-        directionsAsyncTask.execute(new Pair<Context, String>(this, ""));
     }
 
+
+    public void onJoystickButtonCick(View v)
+    {
+        try {
+            Intent intent = new Intent(this, DirectionTest.class);
+            startActivity(intent);
+        }
+        catch( Exception e)
+        {
+            Log.e(TAG,e.toString());
+        }
+    }
+
+    private void HandleRoute(DirectionsResult dr)
+    {
+
+    }
+
+    private void onBluetoothConnected()
+    {
+        Toast.makeText(this, "Bluetooth Connected", Toast.LENGTH_LONG).show();
+    }
 }
