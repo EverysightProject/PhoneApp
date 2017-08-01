@@ -15,7 +15,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -41,7 +40,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                                 GoogleApiClient.ConnectionCallbacks,
                                                  GoogleApiClient.OnConnectionFailedListener,
                                                                                 LocationListener {
-
     private static final int REQUEST_LOCATION = 0;
     private static final int REQUEST_ENABLE_BT = 1 ;
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 2 ;
@@ -59,6 +57,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Location location;
     private BluetoothAdapter mBluetoothAdapter;
     private Handler mBThandler;
+
+    private DirectionsThread mDirectionsThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,7 +177,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
             // Get the BluetoothDevice object
             BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
-            ConnectThread connectThread = new ConnectThread(device, mBThandler);
+            ConnectThread connectThread = new ConnectThread(device,this, mBThandler);
             connectThread.start();
         }
 
@@ -268,11 +268,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void HandleRoute(DirectionsResult dr)
     {
+        int selectedRoute = 0;
+        //TODO - choose path
 
+        mDirectionsThread = new DirectionsThread(dr.routes[selectedRoute],this,mGoogleApiClient);
+        mDirectionsThread.start();
     }
 
-    private void onBluetoothConnected()
-    {
-        Toast.makeText(this, "Bluetooth Connected", Toast.LENGTH_LONG).show();
-    }
 }
