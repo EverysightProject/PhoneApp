@@ -9,11 +9,10 @@
     <RelativeLayout
         android:layout_width="368dp"
         android:layout_height="495dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@android:color/transparent">
+        android:gravity="center"
+        android:background="@android:color/transparent"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -75,20 +74,29 @@
             android:id="@+id/currentLocation"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:background="@android:drawable/editbox_background"
-            android:hint="Current Location"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp" />
+            android:layout_marginTop="50dp"
+            android:background="@android:drawable/editbox_background"
+            android:clickable="true"
+            android:editable="false"
+            android:hint="Current Location"
+            android:onClick="onCurrentLocationClick" />
 
         <EditText
             android:id="@+id/destination"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:background="@android:drawable/editbox_background"
-            android:hint="Destination"
             android:layout_below="@+id/currentLocation"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:background="@android:drawable/editbox_background"
+            android:clickable="true"
+            android:editable="false"
+            android:hint="Destination"
+            android:onClick="onDestinationClick" />
+
+
+
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
