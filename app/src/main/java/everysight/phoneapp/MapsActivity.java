@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -34,11 +35,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.google.maps.model.DirectionsResult;
+import com.google.maps.model.DirectionsStep;
 
 import java.io.StringReader;
 import java.util.List;
 
+import BluetoothConnection.BluetoothCommunicator;
 import BluetoothConnection.ConnectThread;
+import BluetoothConnection.DirectionsMessage;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
                                                 GoogleApiClient.ConnectionCallbacks,
@@ -60,6 +64,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Handler mBThandler;
 
     private DirectionsThread mDirectionsThread;
+    private boolean waitForConnection = false;
+
+    private Thread dirThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +150,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 handleNewLocation( location);
             }
         }
+
+        if (waitForConnection)
+        {
+            mDirectionsThread.run();
+        }
     }
 
     @Override
@@ -166,6 +178,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(Location location) {
+        this.location = location;
         handleNewLocation(location);
     }
 
@@ -267,9 +280,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void HandleRoute(DirectionsResult dr)
+    private void HandleRoute(final DirectionsResult dr)
     {
-        int selectedRoute = 0;
+        final int selectedRoute = 0;
         //TODO - choose path
 
         for (int i=0;i<dr.routes[0].legs.length;i++)
@@ -297,24 +310,70 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 circle = mMap.addCircle(circleOptions);
             }
         }
-//
-//        List<com.google.maps.model.LatLng> points = dr.routes[0].overviewPolyline.decodePath();
-//         for(com.google.maps.model.LatLng point : points)
-//        {
-//
-//            // Instantiates a new CircleOptions object and defines the center and radius
-//            CircleOptions circleOptions = new CircleOptions()
-//                    .center(new LatLng(point.lat,point.lng))
-//                    .fillColor(Color.BLUE)
-//                    .radius(1); // In meters
-//
-//            // Get back the mutable Circle
-//            Circle circle = mMap.addCircle(circleOptions);
-//
-//        }
 
-        mDirectionsThread = new DirectionsThread(dr.routes[selectedRoute],this,mGoogleApiClient);
-        mDirectionsThread.start();
-    }
+        Runnable directionsThread = new Runnable() {
+
+            @Override
+            public void run() {
+                for(int i=0; i<dr.routes[selectedRoute].legs.length;i++)
+                {
+                    for( int j=0;j<dr.routes[selectedRoute].legs[i].steps.length;j++)
+                    {
+                        doStep(dr.routes[selectedRoute].legs[i].steps[j]);
+                    }
+                }
+            }
+
+            public void doStep(DirectionsStep directionStep)
+            {
+                Location endLocation = new Location("");
+                endLocation.setLatitude(directionStep.endLocation.lat);
+                endLocation.setLongitude(directionStep.endLocation.lng);
+                DirectionsMessage dm = new DirectionsMessage();
+
+                String mDirection = "Forward";
+                if(directionStep.maneuver != null) {
+                    if (directionStep.maneuver.endsWith("right")) {
+                        mDirection = "Right";
+                    } else if (directionStep.maneuver.endsWith("left")) {
+                        mDirection = "Left";
+                    } else if (directionStep.maneuver.endsWith("straight")) {
+                        mDirection = "Forward";
+                    }
+                }
+                    do {
+                        try {
+                            dm.Direction = mDirection;
+                            dm.DistanceMeter = (int) location.distanceTo(endLocation);
+                            if(dm.DistanceMeter > 50)
+                                dm.Direction = "Forward";
+
+                            dm.GeoLocation = location;
+                            dm.AzimuthDeg = (double) location.bearingTo(endLocation);
+
+                            BluetoothCommunicator bt = BluetoothCommunicator.getInstance();
+                            if(bt.isConnected())
+                            {
+                                Gson gson = new Gson();
+                                String message = gson.toJson(dm);
+                                bt.write(message);
+                                Log.i("Directions Thread","Sent:" + message);
+                            }
+                            else
+                            {
+                            }
+                            Thread.sleep(1000);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.i("Direction Tread", e.toString());
+                        }
+                    }while(dm.DistanceMeter >= 10);
+                }
+            };
+
+        dirThread = new Thread(directionsThread);
+        dirThread.start();
+        }
 
 }

@@ -5,9 +5,12 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 import com.google.maps.model.DirectionsRoute;
@@ -20,13 +23,14 @@ import BluetoothConnection.DirectionsMessage;
  * Created by t-aryehe on 7/27/2017.
  */
 
-public class DirectionsThread extends Thread {
+public class DirectionsThread implements LocationListener {
 
     private final DirectionsRoute mDirectionRoute;
     private GoogleApiClient mGoogleApiClient;
     private final Context mContext;
     private Location mLocation;
     private String mDirection = "";
+    private LocationRequest mLocationRequest;
 
     public DirectionsThread(DirectionsRoute directionsRoute, Context context,
                             GoogleApiClient googleApiClient)
@@ -34,6 +38,11 @@ public class DirectionsThread extends Thread {
         mDirectionRoute = directionsRoute;
         mGoogleApiClient = googleApiClient;
         mContext = context;
+
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
+                .setFastestInterval(1000); // 1 second, in milliseconds
     }
 
     public void run()
@@ -81,6 +90,11 @@ public class DirectionsThread extends Thread {
                 try {
                     mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
+                    if (mLocation == null)
+                    {
+                        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest,this);
+                    }
+
                     dm.Direction = mDirection;
                     dm.DistanceMeter = (int) mLocation.distanceTo(endLocation);
                     if(dm.DistanceMeter > 50)
@@ -95,16 +109,17 @@ public class DirectionsThread extends Thread {
                         Gson gson = new Gson();
                         String message = gson.toJson(dm);
                         bt.write(message);
+                        Log.i("Directions Thread","Sent:" + message);
                     }
                     else
                     {
                         Toast.makeText(mContext, "Bluetooth is not connected", Toast.LENGTH_LONG).show();
                     }
-                    this.sleep(1000);
+                    Thread.sleep(1000);
                 }
                 catch (Exception e)
                 {
-
+                    Log.i("Direction Tread", e.toString());
                 }
             }while(dm.DistanceMeter >= 10);
 
@@ -113,4 +128,8 @@ public class DirectionsThread extends Thread {
 
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        mLocation = location;
+    }
 }
