@@ -80,7 +80,7 @@ public class ConnectThread extends Thread {
     {
         BluetoothCommunicator bt = BluetoothCommunicator.getInstance();
         bt.connect(mmSocket,mHandler);
-        Toast.makeText(mContext, "Bluetooth Connected", Toast.LENGTH_LONG).show();
+      //  Toast.makeText(mContext, "Bluetooth Connected", Toast.LENGTH_LONG).show();
         Log.i(TAG,"Connected");
     }
 }

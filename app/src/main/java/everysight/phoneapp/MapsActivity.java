@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +27,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
@@ -33,6 +36,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.maps.model.DirectionsResult;
 
 import java.io.StringReader;
+import java.util.List;
 
 import BluetoothConnection.ConnectThread;
 
@@ -267,6 +271,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     {
         int selectedRoute = 0;
         //TODO - choose path
+
+        for (int i=0;i<dr.routes[0].legs.length;i++)
+        {
+            for (int j=0; j< dr.routes[0].legs[i].steps.length;j++)
+            {
+                com.google.maps.model.LatLng point = dr.routes[0].legs[i].steps[j].startLocation;
+
+                CircleOptions circleOptions = new CircleOptions()
+                        .center(new LatLng(point.lat,point.lng))
+                        .fillColor(Color.BLUE)
+                        .radius(1); // In meters
+
+                // Get back the mutable Circle
+                Circle circle = mMap.addCircle(circleOptions);
+
+                point = dr.routes[0].legs[i].steps[j].endLocation;
+
+                circleOptions = new CircleOptions()
+                        .center(new LatLng(point.lat,point.lng))
+                        .fillColor(Color.BLUE)
+                        .radius(1); // In meters
+
+                // Get back the mutable Circle
+                circle = mMap.addCircle(circleOptions);
+            }
+        }
+//
+//        List<com.google.maps.model.LatLng> points = dr.routes[0].overviewPolyline.decodePath();
+//         for(com.google.maps.model.LatLng point : points)
+//        {
+//
+//            // Instantiates a new CircleOptions object and defines the center and radius
+//            CircleOptions circleOptions = new CircleOptions()
+//                    .center(new LatLng(point.lat,point.lng))
+//                    .fillColor(Color.BLUE)
+//                    .radius(1); // In meters
+//
+//            // Get back the mutable Circle
+//            Circle circle = mMap.addCircle(circleOptions);
+//
+//        }
 
         mDirectionsThread = new DirectionsThread(dr.routes[selectedRoute],this,mGoogleApiClient);
         mDirectionsThread.start();

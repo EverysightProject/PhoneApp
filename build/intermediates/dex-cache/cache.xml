@@ -3,48 +3,57 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\t-aryehe\.android\build-cache\3ebe97d85ec5ddf4b722751415aebe2f6192aedc\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="bdcc2a9572f18b8c90a3a157cab6cdfc97c6c736">
-        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_f064fbac2ac106f18fa29985ccfb13c0403cf2f4\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_f0a653249a8708e0b5e7a168490b0d9ae8da71cc\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\t-aryehe\.android\build-cache\81b1d483937599521b1711032967e1637e34d4f4\output\jars\classes.jar"
+        jar="C:\Users\t-aryehe\.android\build-cache\005fc410c487bc2068ceeac01fca839b588c1ee3\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="19696dc358ac668e341f28c41e3387d61ccdb81d">
-        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_7fc6cbe4f375c745fafd80adc951dc10ce2173bc\classes.dex" />
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_5f779fafe0031f2bfbdac208c57f8e06a053f901\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\t-aryehe\.android\build-cache\47ed9686117c0db2ba80fc3d74d762b89cae9387\output\jars\classes.jar"
+        jar="C:\Users\t-aryehe\.android\build-cache\09976ad1f86e2fc0d2cc8bd88d109dd161bdd3d2\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
-        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_2ab4e3e8e2897cdf57915905d8278e42eeb3838c\classes.dex" />
+        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_3a2a40c1c603d81578ea12106bac8135bb870ee7\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\t-aryehe\.android\build-cache\848f01dea81da2750a77eb8d29d876c66da92bbc\output\jars\classes.jar"
+        jar="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="abc620ac6d25522651d4855a45933b40bc3d6e02">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_5c8d88bbd53d811e763d408e17ed0f4e2a6ce78c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\a83d7bcdb3dafe4c2d35b435ee013d9511aede79\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="95519720620b553f63afc789beba9ad582807f7c">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_af0a29b30c35e67e8c91bfc3ceb7704197e2d24c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\e768356b8260d47b182c09915a1b22a85a6195aa\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="bb115a110992b254f767f337da233071f6f940b8">
-        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_279dd6eecbbc0f6dc79332bcfe280d5bdaa6f1a6\classes.dex" />
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_83d049723c8962fd70ce00a51649aa41feae0afd\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\213763ec43dc014801f2819075fe71a2e137f229\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_5fb81ff93b473301a179b66678a692313fffefbc\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -53,34 +62,196 @@
         optimize="true"
         revision="25.0.2"
         sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
-        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\constraint-layout-solver-1.0.2_7daeb1bd7ecc119b0b8d990f32edbbc5258406c4\classes.dex" />
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\constraint-layout-solver-1.0.2_7daeb1bd7ecc119b0b8d990f32edbbc5258406c4\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\t-aryehe\.android\build-cache\883c1aa401497c481763682d4b7227ff7f2ee5ed\output\jars\classes.jar"
+        jar="C:\Users\t-aryehe\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.8.0\c4ba5371a29ac9b2ad6129b1d39ea38750043eff\gson-2.8.0.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="c7626a9aa507bbbdc16188bc9a9f9bf3370c1ddd">
-        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_9920b2cfac862909b999449b7c83951b859fda07\classes.dex" />
+        sha1="c4ba5371a29ac9b2ad6129b1d39ea38750043eff">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\gson-2.8.0_e7aeb889d5dfc369287daf3ce46c5001886f9e0c\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jar="C:\Users\t-aryehe\.android\build-cache\0abe63bea78b163886c1ebcf7b034ff8f2ca0712\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="ac311a7d4afaf17d81c79059e589912b98254f65">
-        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_21940d92b3809e36824313786a49b5b9be5a20ac\classes.dex" />
+        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_ee02cefd892325551fda371ae51db62482f7c387\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\t-aryehe\.android\build-cache\f2cd0f74cac43e0c0234db595356bdc5ecff29d1\output\jars\classes.jar"
+        jar="C:\Users\t-aryehe\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.6.0\98476622f10715998eacf9240d6b479f12c66143\okio-1.6.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="98476622f10715998eacf9240d6b479f12c66143">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\okio-1.6.0_619f71beeccb46ef76be671249ad960c424d3f59\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\okhttp\2.7.5\7a15a7db50f86c4b64aa3367424a60e3a325b8f1\okhttp-2.7.5.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7a15a7db50f86c4b64aa3367424a60e3a325b8f1">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\okhttp-2.7.5_6aec349e35f44506f84e8d294360d5ac64b3144e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\70708a134f89e1b077a4ad887083f203fe9330aa\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_3b9cb1a206555bbede12fb1e0decb21ef4044c32\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\472030fe15b3dc7cc53a6eb0f66ba39a41fac2f8\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="6003d64df88a6ce5e961fa2bad7f1b9b97689ac1">
-        <dex dex="C:\Users\t-aryehe\Documents\Everysight\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_ce68f27a13bb9618aee6c4647c2e2eaa8c9a1893\classes.dex" />
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_df09bcc60b88c6d62292e08caa645f0a6bdc1d2c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\36befef957f4e7868c982a8419432bfa26132a86\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bdcc2a9572f18b8c90a3a157cab6cdfc97c6c736">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_78d646af92a065ed1896b02ce8fcab21cec7d57c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\af49711d5e4701b54cf677d8f596ae45e82f7a54\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c7626a9aa507bbbdc16188bc9a9f9bf3370c1ddd">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_49911494bcb5718a7acb6c24ff96edef98b5a702\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\c43670f00ba14745522d1a6ed19093b2c6c76ca4\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_b253f3ca952223a6676cd9f689a3eb73725bfe8a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\516a22aac838c859386aa3c59e8eddf8417070ed\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_9ed33e15a6702d38b89dad099729a913eeb070c5\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\a61fbe8573787e6532110843c3dc1e5daa0441bc\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_a462fa99e47e720203686e425fedfa9008c42e30\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\6f1c7e0cc46fa46d04156222a61afa4dcc7e5b85\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_c6bacade497300dc6e23b18696279337e3508fe7\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\e42ecd4f03b47581809f02d26e2483cd050ccec4\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_c54a6af72838a2b98a19fe46084826f470e92340\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.gradle\caches\modules-2\files-2.1\org.slf4j\slf4j-api\1.7.25\da76ca59f6a57ee3102f8f9bd9cee742973efa8a\slf4j-api-1.7.25.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="da76ca59f6a57ee3102f8f9bd9cee742973efa8a">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\slf4j-api-1.7.25_5872359de922fb424b7f5b18921102af57dc0e0e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_54de02e5988ccad2703f31af7c7dd663a1829c77\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.gradle\caches\modules-2\files-2.1\joda-time\joda-time\2.9.7\6eb2e87ddb09e944bb88f06f19ba0638d4607ffd\joda-time-2.9.7.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6eb2e87ddb09e944bb88f06f19ba0638d4607ffd">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\joda-time-2.9.7_e965fc99f17e204a991c4f69d0cabf5955a5de0b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.3.1\support-annotations-25.3.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.3.1_8f3ee875bf57e1811578a14f2aa694ba254c5f4c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\2dfa876682cc65b6c0c95b0586bdd56b619e115c\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_51ab42e0b8726a187d231be85565af84c115e4e2\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\582714022be7a3dd769ab71fbfb070b5ff0945a8\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e4851331b3944beb6e7f77316a7661f53781da62">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_6c90e14260ce388c94079221321b0d2bc50102a9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\b4ac467b6175892e620f2919bbef42c061d04dcc\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_2d594580ed103348b2d32cb14e4988438c75f851\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\t-aryehe\.android\build-cache\81ebb4ecc23adef45cf32940943c65de1c10ed33\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
+        <dex dex="C:\Users\t-aryehe\StudioProjects\PhoneApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_8ce007e405be990e245597d22ca6356fd1835c9f\classes.dex" />
     </item>
 
 </items>

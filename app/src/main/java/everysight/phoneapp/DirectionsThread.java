@@ -106,7 +106,7 @@ public class DirectionsThread extends Thread {
                 {
 
                 }
-            }while(dm.DistanceMeter < 10);
+            }while(dm.DistanceMeter >= 10);
 
 
         }

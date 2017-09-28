@@ -54,6 +54,7 @@ public class DirectionsSettingsActivity extends AppCompatActivity implements
     private Place Destination;
 
     private GoogleApiClient mGoogleApiClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +68,7 @@ public class DirectionsSettingsActivity extends AppCompatActivity implements
                 .build();
 
         mGoogleApiClient.connect();
-        getCurrentPlace();
+       // getCurrentPlace();
     }
 
     @Override
@@ -105,27 +106,44 @@ public class DirectionsSettingsActivity extends AppCompatActivity implements
         }
     }
 
-    private void getCurrentPlace() {
+    private String getCurrentPlace() {
+        Location location = null;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED) {
+            // Check Permissions Now
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
+        } else {
+            // permission has been granted, continue as usual
+            location =
+                    LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-            PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi.getCurrentPlace(mGoogleApiClient, null);
-            result.setResultCallback(new ResultCallback<PlaceLikelihoodBuffer>() {
-                @Override
-                public void onResult(PlaceLikelihoodBuffer likelyPlaces) {
-                    float likelihood = 0;
-                    int index = 0;
-                    for (PlaceLikelihood placeLikelihood : likelyPlaces) {
-                        if (placeLikelihood.getLikelihood() > likelihood) {
-                            likelihood = placeLikelihood.getLikelihood();
-                            index++;
-                        }
-                    }
-                    PlaceLikelihood placeLike = likelyPlaces.get(index);
-                    OriginLocation = placeLike.getPlace();
-                }
-            });
+             if ( location == null)
+             {
+                 PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi.getCurrentPlace(mGoogleApiClient, null);
+                 result.setResultCallback(new ResultCallback<PlaceLikelihoodBuffer>() {
+                     @Override
+                     public void onResult(PlaceLikelihoodBuffer likelyPlaces) {
+                         float likelihood = 0;
+                         int index = 0;
+                         for (PlaceLikelihood placeLikelihood : likelyPlaces) {
+                             if (placeLikelihood.getLikelihood() > likelihood) {
+                                 likelihood = placeLikelihood.getLikelihood();
+                                 index++;
+                             }
+                         }
+                         PlaceLikelihood placeLike = likelyPlaces.get(index);
+                         OriginLocation = placeLike.getPlace();
+                     }
+                 });
+                 return OriginLocation.getName().toString();
+             }
         }
+
+        double lat = location.getLatitude();
+        double lng = location.getLongitude();
+
+        return String.valueOf(lat) + "," + String.valueOf(lng);
     }
 
     public void onCurrentLocationClick(View v)
@@ -168,8 +186,7 @@ public class DirectionsSettingsActivity extends AppCompatActivity implements
 
     private RouteParameters fillParameters()
     {
-        while (OriginLocation == null);
-        String locInput = OriginLocation.getName().toString();
+        String locInput = getCurrentPlace();
         String destInput = Destination.getName().toString();
 
         if (destInput.equals(""))
