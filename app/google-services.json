@@ -1,0 +1,58 @@
+{
+  "project_info": {
+    "project_number": "489335131247",
+    "firebase_url": "https://everysight-b156b.firebaseio.com",
+    "project_id": "everysight-b156b",
+    "storage_bucket": "everysight-b156b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:489335131247:android:628f8e6b5c7b8fcd",
+        "android_client_info": {
+          "package_name": "everysight.phoneapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "489335131247-h65maugdsqdt4dqslgumj2r1gkm5n0hg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "everysight.phoneapp",
+            "certificate_hash": "f0586cec77ebfe76f9eedc84915c8b33daab3208"
+          }
+        },
+        {
+          "client_id": "489335131247-81sahfsl3q34avh51717qmtdhmehatf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqm9xpppFU5IgK1f21sVtSm1GpWN356Io"
+        },
+        {
+          "current_key": "AIzaSyD-syTRDvLlR1_wzqe_UmfrwK_KP49Z4uQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "489335131247-81sahfsl3q34avh51717qmtdhmehatf5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

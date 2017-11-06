@@ -46,8 +46,13 @@
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/select_device"
             android:theme="@android:style/Theme.Holo.Dialog" />
-        <activity android:name=".DirectionTest" android:theme = "@style/AppTheme.NoActionBar"/>
-        <activity android:name=".DirectionsSettingsActivity" android:theme = "@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".DirectionTest"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DirectionsSettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>

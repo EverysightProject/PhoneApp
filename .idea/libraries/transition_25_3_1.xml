@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="transition-25.3.1">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/98d9f8cb472e42cefb3b8141406646a4e07aa64d/output/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/98d9f8cb472e42cefb3b8141406646a4e07aa64d/output/res" />
+      <root url="file://$USER_HOME$/.android/build-cache/6f1c7e0cc46fa46d04156222a61afa4dcc7e5b85/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/6f1c7e0cc46fa46d04156222a61afa4dcc7e5b85/output/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

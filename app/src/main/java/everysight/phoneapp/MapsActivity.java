@@ -94,6 +94,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.i(TAG,"Device does not support Bluetooth");
         }
         mBThandler = new Handler();
+
+        try {
+            Intent serverIntent = new Intent(this, LoginActivity.class);
+            startActivityForResult(serverIntent, REQUEST_DIRECTIONS);
+        }
+        catch( Exception e)
+        {
+            Log.e(TAG,e.toString());
+        }
     }
 
     @Override
