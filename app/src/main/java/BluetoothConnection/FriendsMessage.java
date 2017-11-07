@@ -2,11 +2,10 @@ package BluetoothConnection;
 
 import android.location.Location;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-import everysight.phoneapp.FriendData;
+import java.util.Map;
 
 /**
  * Created by t-aryehe on 11/6/2017.
@@ -14,5 +13,5 @@ import everysight.phoneapp.FriendData;
 
 public class FriendsMessage extends BtMessage {
     @SerializedName("FriendsData")
-    public List<FriendData> FriendsData = null;
+    public Map<String,LatLng> FriendsData = null;
 }

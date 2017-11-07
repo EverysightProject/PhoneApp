@@ -31,17 +31,29 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_gravity="left|bottom"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:background="@drawable/joystick"
-        android:onClick="onJoystickButtonCick" />
+        android:onClick="onJoystickButtonCick"
+        android:visibility="gone"/>
+
+    <ImageButton
+        android:id="@+id/PlacesButton"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="left|bottom"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/places"
+        android:onClick="OnPlacesButtonClick" />
 
     <ImageButton
         android:id="@+id/FriendsButton"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_gravity="left|top"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:background="@drawable/friends" />
+        android:layout_marginTop="10dp"
+        android:background="@drawable/friends"
+        android:onClick="OnFriendsButtonClick" />
 </fragment>

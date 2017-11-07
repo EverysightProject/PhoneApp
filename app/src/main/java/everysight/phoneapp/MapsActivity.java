@@ -3,10 +3,13 @@ package everysight.phoneapp;
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +19,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -32,17 +37,27 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DirectionsStep;
 
 import java.io.StringReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import BluetoothConnection.BluetoothCommunicator;
 import BluetoothConnection.ConnectThread;
 import BluetoothConnection.DirectionsMessage;
+import BluetoothConnection.FriendsMessage;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
                                                 GoogleApiClient.ConnectionCallbacks,
@@ -52,6 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int REQUEST_ENABLE_BT = 1 ;
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 2 ;
     private static final int REQUEST_DIRECTIONS = 3;
+    private static final int REQUEST_LOGIN = 4;
     private GoogleMap mMap;
 
     private GoogleApiClient mGoogleApiClient;
@@ -63,10 +79,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private BluetoothAdapter mBluetoothAdapter;
     private Handler mBThandler;
 
-    private DirectionsThread mDirectionsThread;
     private boolean waitForConnection = false;
 
     private Thread dirThread;
+    private Thread friendThread;
+
+    private String Username = "";
+
+    private boolean FriendsOn = false;
+    private boolean BluetoothOn = false;
+    private boolean PlacesOn = false;
+    private boolean DirectionsOn = false;
+    private Map<String,LatLng> friends = new HashMap<String, LatLng>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,13 +119,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         mBThandler = new Handler();
 
-        try {
-            Intent serverIntent = new Intent(this, LoginActivity.class);
-            startActivityForResult(serverIntent, REQUEST_DIRECTIONS);
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String name = sharedPref.getString("Name","None");
+
+        if (name.equals("None")) {
+            try {
+                Intent serverIntent = new Intent(this, LoginActivity.class);
+                startActivityForResult(serverIntent, REQUEST_LOGIN);
+            }
+            catch( Exception e)
+            {
+                Log.e(TAG,e.toString());
+            }
         }
-        catch( Exception e)
+        else
         {
-            Log.e(TAG,e.toString());
+            Username = name;
         }
     }
 
@@ -157,12 +191,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             else {
                 handleNewLocation( location);
+                mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(location.getLatitude(), location.getLongitude()))
+                        .title("You are here"));
             }
-        }
-
-        if (waitForConnection)
-        {
-            mDirectionsThread.run();
         }
     }
 
@@ -196,12 +228,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     {
         if(requestCode==REQUEST_CONNECT_DEVICE_SECURE)
         {
-            String address = data.getExtras()
-                    .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-            // Get the BluetoothDevice object
-            BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
-            ConnectThread connectThread = new ConnectThread(device,this, mBThandler);
-            connectThread.start();
+            try
+            {
+                String address = data.getExtras()
+                        .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+                // Get the BluetoothDevice object
+                BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+                ConnectThread connectThread = new ConnectThread(device,this, mBThandler);
+                connectThread.start();
+            }
+            catch (Exception e){
+
+            }
         }
 
         if(requestCode == REQUEST_DIRECTIONS && resultCode == RESULT_OK)
@@ -219,6 +257,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 System.out.print(exception.toString());
             }
         }
+
+        if (requestCode == REQUEST_LOGIN)
+        {
+            Username = data.getStringExtra("Name");
+            String email = data.getStringExtra("Email");
+            String pass = data.getStringExtra("Password");
+
+            SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("Name", Username);
+            editor.putString("Email", email);
+            editor.putString("Password", pass);
+            editor.commit();
+        }
     }
 
     private void handleNewLocation(Location location) {
@@ -230,9 +282,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .zoom(17)                   // Sets the zoom
                 .build();                   // Creates a CameraPosition from the builder
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(location.getLatitude(), location.getLongitude()))
-                .title("You are here"));
     }
 
     public void onRequestPermissionsResult(int requestCode,
@@ -254,25 +303,53 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onDirectionsButtonClick(View v)
     {
-        try {
-            Intent serverIntent = new Intent(this, DirectionsSettingsActivity.class);
-            startActivityForResult(serverIntent, REQUEST_DIRECTIONS);
-        }
-        catch( Exception e)
+        ImageButton b = (ImageButton) findViewById(R.id.DirectionsButton);
+        if(DirectionsOn)
         {
-            Log.e(TAG,e.toString());
+            Drawable myIcon = getResources().getDrawable( R.drawable.sign);
+            b.setBackground(myIcon);
+            dirThread.interrupt();
+            DirectionsOn = false;
+            mMap.clear();
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(location.getLatitude(), location.getLongitude()))
+                    .title("You are here"));
+        }
+        else {
+            try {
+                Intent serverIntent = new Intent(this, DirectionsSettingsActivity.class);
+                startActivityForResult(serverIntent, REQUEST_DIRECTIONS);
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+            Drawable myIcon = getResources().getDrawable( R.drawable.signpressed);
+            b.setBackground(myIcon);
+            DirectionsOn = true;
         }
     }
 
     public void onBluetoothButtonClick(View v)
     {
-        try {
-            Intent serverIntent = new Intent(this, DeviceListActivity.class);
-            startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
-        }
-        catch( Exception e)
+        ImageButton b = (ImageButton) findViewById(R.id.BluetoothButton);
+        if (BluetoothOn)
         {
-            Log.e(TAG,e.toString());
+            Drawable myIcon = getResources().getDrawable( R.drawable.bluetooth);
+            b.setBackground(myIcon);
+            BluetoothOn = false;
+        }
+        else
+        {
+            try {
+                Intent serverIntent = new Intent(this, DeviceListActivity.class);
+                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
+            }
+            catch( Exception e)
+            {
+                Log.e(TAG,e.toString());
+            }
+            Drawable myIcon = getResources().getDrawable( R.drawable.bluetoothpressed);
+            b.setBackground(myIcon);
+            BluetoothOn = true;
         }
     }
 
@@ -322,6 +399,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Runnable directionsThread = new Runnable() {
 
+            private boolean stop = false;
+
             @Override
             public void run() {
                 for(int i=0; i<dr.routes[selectedRoute].legs.length;i++)
@@ -329,6 +408,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     for( int j=0;j<dr.routes[selectedRoute].legs[i].steps.length;j++)
                     {
                         doStep(dr.routes[selectedRoute].legs[i].steps[j]);
+                        if(stop)
+                            return;
                     }
                 }
             }
@@ -350,39 +431,164 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         mDirection = "Forward";
                     }
                 }
-                    do {
-                        try {
-                            dm.Direction = mDirection;
-                            dm.DistanceMeter = (int) location.distanceTo(endLocation);
-                            if(dm.DistanceMeter > 50)
-                                dm.Direction = "Forward";
 
-                            dm.GeoLocation = location;
-                            dm.AzimuthDeg = (double) location.bearingTo(endLocation);
+                do {
+                    try {
+                        dm.Direction = mDirection;
+                        dm.DistanceMeter = (int) location.distanceTo(endLocation);
+                        if(dm.DistanceMeter > 50)
+                            dm.Direction = "Forward";
 
-                            BluetoothCommunicator bt = BluetoothCommunicator.getInstance();
-                            if(bt.isConnected())
-                            {
-                                Gson gson = new Gson();
-                                String message = gson.toJson(dm);
-                                bt.write(message);
-                                Log.i("Directions Thread","Sent:" + message);
-                            }
-                            else
-                            {
-                            }
-                            Thread.sleep(1000);
-                        }
-                        catch (Exception e)
+                        dm.MessageType = "Directions";
+                        dm.GeoLocation = location;
+                        dm.AzimuthDeg = (double) location.bearingTo(endLocation);
+
+                        BluetoothCommunicator bt = BluetoothCommunicator.getInstance();
+                        if(bt.isConnected())
                         {
-                            Log.i("Direction Tread", e.toString());
+                            Gson gson = new Gson();
+                            String message = gson.toJson(dm);
+                            bt.write(message);
+                            Log.i("Directions Thread","Sent:" + message);
                         }
-                    }while(dm.DistanceMeter >= 10);
-                }
-            };
+                        if (Thread.interrupted())
+                        {
+                            stop = true;
+                            break;
+                        }
+                        else
+                            Thread.sleep(1000);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.i("Direction Tread", e.toString());
+                    }
+                }while(dm.DistanceMeter >= 10);
+            }
+        };
 
         dirThread = new Thread(directionsThread);
         dirThread.start();
         }
 
+
+    public void OnFriendsButtonClick(View v)
+    {
+        ImageButton b = (ImageButton) findViewById(R.id.FriendsButton);
+        if (FriendsOn)
+        {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("Friends").child(Username);
+
+            myRef.setValue(0,0);
+            Drawable myIcon = getResources().getDrawable( R.drawable.friends);
+            b.setBackground(myIcon);
+            FriendsOn = false;
+
+            mMap.clear();
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(location.getLatitude(), location.getLongitude()))
+                    .title(Username));
+            friendThread.interrupt();
+        }
+        else
+        {
+            FriendsOn = true;
+            Drawable myIcon = getResources().getDrawable( R.drawable.friendspressed);
+            b.setBackground(myIcon);
+
+            Runnable friendsThread = new Runnable() {
+                @Override
+                public void run() {
+                    while(FriendsOn)
+                    {
+                        try
+                        {
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference myRef = database.getReference("Friends").child(Username);
+
+                            myRef.setValue(new LatLng(location.getLatitude(),location.getLongitude()));
+
+                            myRef = database.getReference("Friends");
+                            myRef.addListenerForSingleValueEvent(
+                                    new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            try
+                                            {
+                                                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+                                                    if (dsp.getKey().equals(Username))
+                                                        continue;
+                                                    Map<String,Double> location = (HashMap<String,Double>) dsp.getValue();
+                                                    double lat = location.get("latitude");
+                                                    double lon = location.get("longitude");
+                                                    friends.put(dsp.getKey(), new LatLng(lat,lon));
+
+                                                    mMap.clear();
+                                                    mMap.addMarker(new MarkerOptions()
+                                                            .position(new LatLng(lat, lon))
+                                                            .title(dsp.getKey()));
+                                                }
+                                                mMap.addMarker(new MarkerOptions()
+                                                        .position(new LatLng(location.getLatitude(), location.getLongitude()))
+                                                        .title(Username));
+
+                                                FriendsMessage fm = new FriendsMessage();
+                                                fm.GeoLocation = location;
+                                                fm.MessageType = "Friends";
+                                                fm.FriendsData = friends;
+                                                BluetoothCommunicator bt = BluetoothCommunicator.getInstance();
+                                                if(bt.isConnected())
+                                                {
+                                                    Gson gson = new Gson();
+                                                    String message = gson.toJson(fm);
+                                                    bt.write(message);
+                                                    Log.i("Friends Thread","Sent:" + message);
+                                                }
+                                            }
+                                            catch(Exception e)
+                                            {
+                                            }
+                                        }
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            //handle databaseError
+                                        }
+                                    });
+                            if(Thread.interrupted())
+                                break;
+                            else
+                                Thread.sleep(1000);
+                        }
+                        catch(Exception e)
+                        {
+
+                        }
+                    }
+                }
+            };
+
+            friendThread = new Thread(friendsThread);
+            friendThread.start();
+        }
+    }
+
+    public void OnPlacesButtonClick(View v)
+    {
+        ImageButton b = (ImageButton) findViewById(R.id.PlacesButton);
+        if (PlacesOn)
+        {
+            Drawable myIcon = getResources().getDrawable( R.drawable.places);
+            b.setBackground(myIcon);
+            PlacesOn = false;
+        }
+        else
+        {
+            Drawable myIcon = getResources().getDrawable( R.drawable.placespressed);
+            b.setBackground(myIcon);
+            PlacesOn = true;
+        }
+    }
 }
+
+

@@ -32,7 +32,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="67dp"
             android:onClick="OnClickSignUp"
-            android:text="Sign Up"
+            android:text="Register"
             tools:layout_editor_absoluteX="215dp"
             tools:layout_editor_absoluteY="420dp" />
 
@@ -46,7 +46,7 @@
             android:ems="10"
             android:hint="Email"
             android:inputType="textPersonName"
-            android:text=""
+            android:text="ariely15@gmail.com"
             tools:layout_editor_absoluteX="85dp"
             tools:layout_editor_absoluteY="281dp" />
 
@@ -60,9 +60,22 @@
             android:ems="10"
             android:hint="Password"
             android:inputType="textPersonName"
-            android:text=""
+            android:text="asdfghjkl"
             tools:layout_editor_absoluteX="215dp"
             tools:layout_editor_absoluteY="714dp" />
+
+        <EditText
+            android:id="@+id/nameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/emailText"
+            android:layout_alignStart="@+id/emailText"
+            android:layout_marginBottom="17dp"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:text="Ariel"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

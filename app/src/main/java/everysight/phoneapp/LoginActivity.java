@@ -1,17 +1,20 @@
 package everysight.phoneapp;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.appengine.repackaged.com.google.api.client.auth.oauth2.Credential;
-import com.google.appengine.repackaged.com.google.api.client.http.HttpRequest;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -74,14 +77,23 @@ public class LoginActivity extends AppCompatActivity  {
 
     public void OnClickSignUp(View v)
     {
+        Button b = (Button) findViewById(R.id.button3);
+        EditText name = (EditText) findViewById(R.id.nameText);
+        if (b.getText().toString().equals("Register"))
+        {
+            name.setVisibility(View.VISIBLE);
+            b.setText("Sign up");
+            return;
+        }
+
         EditText email = (EditText) findViewById(R.id.emailText);
         EditText pass = (EditText) findViewById(R.id.PassText);
 
-        CreateAccount(email.getText().toString(),pass.getText().toString());
+        CreateAccount(name.getText().toString(),email.getText().toString(),pass.getText().toString());
     }
 
 
-    public void CreateAccount(final String email,final String password)
+    public void CreateAccount(final String name,final String email,final String password)
     {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -98,11 +110,13 @@ public class LoginActivity extends AppCompatActivity  {
                         }
                         else
                         {
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra("Name", name);
+                            resultIntent.putExtra("Email", email);
+                            resultIntent.putExtra("Password", password);
+                            setResult(Activity.RESULT_OK, resultIntent);
                             finish();
                         }
-
-
-                        // ...
                     }
                 });
     }
