@@ -18,16 +18,19 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -43,21 +46,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
-import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DirectionsStep;
 
 import java.io.StringReader;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import BluetoothConnection.BluetoothCommunicator;
 import BluetoothConnection.ConnectThread;
 import BluetoothConnection.DirectionsMessage;
 import BluetoothConnection.FriendsMessage;
+import BluetoothConnection.PlacesMessage;
+import CloudController.PlacesController.NearByParameters;
+import CloudController.PlacesController.MyPlace;
+import CloudController.PlacesController.PlacesAsyncTask;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
                                                 GoogleApiClient.ConnectionCallbacks,
@@ -79,7 +86,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private BluetoothAdapter mBluetoothAdapter;
     private Handler mBThandler;
 
-    private boolean waitForConnection = false;
 
     private Thread dirThread;
     private Thread friendThread;
@@ -91,6 +97,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean PlacesOn = false;
     private boolean DirectionsOn = false;
     private Map<String,LatLng> friends = new HashMap<String, LatLng>();
+
+    Map<String, com.google.maps.model.LatLng> placesMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -353,7 +361,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-
     public void onJoystickButtonCick(View v)
     {
         try {
@@ -587,6 +594,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Drawable myIcon = getResources().getDrawable( R.drawable.placespressed);
             b.setBackground(myIcon);
             PlacesOn = true;
+
+            NearByParameters nearByParameters = new NearByParameters();
+            nearByParameters.location = new com.google.maps.model.LatLng(location.getLatitude(),location.getLongitude());
+            nearByParameters.radius = 1000;
+
+            PlacesAsyncTask placesAsyncTask = new PlacesAsyncTask(this);
+            placesAsyncTask.setNearByParameters(nearByParameters);
+            placesAsyncTask.execute(new Pair<Context, String>(this, ""));
+        }
+    }
+
+    public void setPlaceResponse(String result){
+        Gson gson = new Gson();
+        JsonArray placesArray = gson.fromJson(result,JsonArray.class);
+
+        placesMap.clear();
+
+        for (JsonElement j : placesArray)
+        {
+            MyPlace p = gson.fromJson(j.getAsString(),MyPlace.class);
+            placesMap.put(p.name,p.location);
+        }
+
+        PlacesMessage placesMessage = new PlacesMessage();
+        placesMessage.PlacesData = placesMap;
+
+        BluetoothCommunicator bt = BluetoothCommunicator.getInstance();
+        if(bt.isConnected())
+        {
+            String message = gson.toJson(placesMessage);
+            bt.write(message);
+            Log.i("Places","Sent:" + message);
         }
     }
 }

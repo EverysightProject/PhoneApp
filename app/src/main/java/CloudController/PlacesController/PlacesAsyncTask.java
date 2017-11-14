@@ -1,9 +1,16 @@
-package CloudController;
+package CloudController.PlacesController;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
-import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.maps.internal.LatLngAdapter;
+import com.google.maps.model.LatLng;
+import com.google.maps.model.PlacesSearchResponse;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,42 +18,51 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class ServletPostAsyncTask extends AsyncTask<Pair<Object, String>, Void, String> {
+import everysight.phoneapp.MapsActivity;
+
+/**
+ * Created by t-aryehe on 11/11/2017.
+ */
+
+public class PlacesAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
     private Context context;
-    private URL url;
+    private NearByParameters nearByParameters = null;
+    private Activity mCaller;
+
+    public PlacesAsyncTask(Activity caller)
+    {
+        mCaller = caller;
+    }
 
     @Override
-    protected String doInBackground(Pair<Object, String>... params) {
-       // context = params[0].first;
-        String name = params[0].second;
+    protected String doInBackground(Pair<Context, String>[] params) {
+        context = params[0].first;
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LatLng.class, new LatLngAdapter())
+                .create();
 
         try {
             // Set up the request
-            URL url = new URL("https://everysightbackendapp.appspot.com/directions");
+            URL url = new URL("https://everysightbackendapp.appspot.com/places");
+            //   URL url = new URL("http://192.168.1.18/directions");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
             connection.setDoInput(true);
             connection.setDoOutput(true);
-
-            // Build name data request params
-//            Map<String, String> nameValuePairs = new HashMap<>();
-//            nameValuePairs.put("name", name);
-//            String postParams = buildPostDataString(nameValuePairs);
 
             // Execute HTTP Post
             OutputStream outputStream = connection.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-           // writer.write(postParams);
+            String message = gson.toJson(nearByParameters);
+            writer.write(message);
             writer.flush();
-            writer.close();
             outputStream.close();
             connection.connect();
 
@@ -70,26 +86,19 @@ public class ServletPostAsyncTask extends AsyncTask<Pair<Object, String>, Void, 
         }
     }
 
-    private String buildPostDataString(Map<String, String> params) throws UnsupportedEncodingException {
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            if (first) {
-                first = false;
-            } else {
-                result.append("&");
-            }
-
-            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-            result.append("=");
-            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-        }
-
-        return result.toString();
+    protected void onPostExecute(String result)
+    {
+        MapsActivity activity = (MapsActivity) mCaller;
+        activity.setPlaceResponse(result);
     }
 
-    @Override
-    protected void onPostExecute(String result) {
-            Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+    public void setNearByParameters(NearByParameters nearByParameters)
+    {
+        this.nearByParameters = nearByParameters;
+    }
+
+    public NearByParameters getNearByParameters()
+    {
+        return this.nearByParameters;
     }
 }

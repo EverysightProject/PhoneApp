@@ -77,6 +77,9 @@ public class LatLngAdapter extends TypeAdapter<LatLng> {
    */
   @Override
   public void write(JsonWriter out, LatLng value) throws IOException {
-    throw new UnsupportedOperationException("Unimplemented method.");
+    out.beginObject();
+    out.name("lat").value(value.lat);
+    out.name("lng").value(value.lng);
+    out.endObject();
   }
 }
