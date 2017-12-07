@@ -7,6 +7,9 @@ import android.os.AsyncTask;
 import android.util.Pair;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.maps.internal.LatLngAdapter;
+import com.google.maps.model.LatLng;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -36,7 +39,9 @@ public class DirectionsAsyncTask extends AsyncTask<Pair<Context, String>, Void, 
     protected String doInBackground(Pair<Context, String>... params) {
         context = params[0].first;
 
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LatLng.class, new LatLngAdapter())
+                .create();
 
         try {
             // Set up the request

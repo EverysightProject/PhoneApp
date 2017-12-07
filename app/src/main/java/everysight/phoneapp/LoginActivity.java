@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity  {
                 });
     }
 
-    public void SignIn(String email, String password)
+    public void SignIn(final String email,final String password)
     {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -137,9 +137,14 @@ public class LoginActivity extends AppCompatActivity  {
                             Toast.makeText(LoginActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         }
-                        else
+                        else {
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra("Name", "user");
+                            resultIntent.putExtra("Email", email);
+                            resultIntent.putExtra("Password", password);
+                            setResult(Activity.RESULT_OK, resultIntent);
                             finish();
-
+                        }
                         // ...
                     }
                 });
