@@ -39,9 +39,11 @@ public class DirectionsAsyncTask extends AsyncTask<Pair<Context, String>, Void, 
     protected String doInBackground(Pair<Context, String>... params) {
         context = params[0].first;
 
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LatLng.class, new LatLngAdapter())
-                .create();
+//        Gson gson = new GsonBuilder()
+//                .registerTypeAdapter(LatLng.class, new LatLngAdapter())
+//                .create();
+
+        Gson gson = new Gson();
 
         try {
             // Set up the request
