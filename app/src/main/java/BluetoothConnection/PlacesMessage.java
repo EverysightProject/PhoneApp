@@ -1,7 +1,10 @@
 package BluetoothConnection;
 
+import android.location.Location;
+import android.util.Pair;
+
 import com.google.gson.annotations.SerializedName;
-import com.google.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Map;
 
@@ -11,5 +14,5 @@ import java.util.Map;
 
 public class PlacesMessage extends BtMessage {
     @SerializedName("PlacesData")
-    public Map<String,LatLng> PlacesData = null;
+    public Map<String,Pair<Double,Double>> PlacesData = null;
 }

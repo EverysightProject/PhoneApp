@@ -96,9 +96,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean BluetoothOn = false;
     private boolean PlacesOn = false;
     private boolean DirectionsOn = false;
-    private Map<String,LatLng> friends = new HashMap<String, LatLng>();
+    private Map<String,Pair<Double,Double>> friends = new HashMap<>();
 
-    Map<String, com.google.maps.model.LatLng> placesMap = new HashMap<>();
+    Map<String, Pair<Double,Double>> placesMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -529,7 +529,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                                     Map<String,Double> location = (HashMap<String,Double>) dsp.getValue();
                                                     double lat = location.get("latitude");
                                                     double lon = location.get("longitude");
-                                                    friends.put(dsp.getKey(), new LatLng(lat,lon));
+                                                    friends.put(dsp.getKey(), new Pair<>(lat,lon));
 
                                                     mMap.clear();
                                                     mMap.addMarker(new MarkerOptions()
@@ -565,7 +565,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             if(Thread.interrupted())
                                 break;
                             else
-                                Thread.sleep(1000);
+                                friendThread.interrupt();
+//                                Thread.sleep(1000);
                         }
                         catch(Exception e)
                         {
@@ -610,22 +611,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         JsonArray placesArray = gson.fromJson(result,JsonArray.class);
 
         placesMap.clear();
-
+        int i=0;
         for (JsonElement j : placesArray)
         {
             MyPlace p = gson.fromJson(j.getAsString(),MyPlace.class);
-            placesMap.put(p.name,p.location);
+            placesMap.put(p.name,new Pair<Double, Double>(p.location.lat,p.location.lng));
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(p.location.lat,p.location.lng))
+                    .title(p.name));
+            if (i++ > 2)
+                break;
         }
 
         PlacesMessage placesMessage = new PlacesMessage();
         placesMessage.PlacesData = placesMap;
+        placesMessage.MessageType = "Places";
+        placesMessage.GeoLocation = location;
 
         BluetoothCommunicator bt = BluetoothCommunicator.getInstance();
-        if(bt.isConnected())
-        {
+        if(bt.isConnected()) {
             String message = gson.toJson(placesMessage);
             bt.write(message);
-            Log.i("Places","Sent:" + message);
+            Log.i("Places", "Sent:" + message);
         }
     }
 }

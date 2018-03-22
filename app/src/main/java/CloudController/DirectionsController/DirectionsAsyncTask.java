@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.Pair;
 
 import com.google.gson.Gson;
@@ -39,10 +40,6 @@ public class DirectionsAsyncTask extends AsyncTask<Pair<Context, String>, Void, 
     protected String doInBackground(Pair<Context, String>... params) {
         context = params[0].first;
 
-//        Gson gson = new GsonBuilder()
-//                .registerTypeAdapter(LatLng.class, new LatLngAdapter())
-//                .create();
-
         Gson gson = new Gson();
 
         try {
@@ -58,7 +55,8 @@ public class DirectionsAsyncTask extends AsyncTask<Pair<Context, String>, Void, 
             // Execute HTTP Post
             OutputStream outputStream = connection.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-            writer.write(gson.toJson(routeParameters));
+            String msg = gson.toJson(routeParameters);
+            writer.write(msg);
             writer.flush();
             writer.close();
             outputStream.close();
@@ -79,8 +77,9 @@ public class DirectionsAsyncTask extends AsyncTask<Pair<Context, String>, Void, 
             }
             return "Error: " + responseCode + " " + connection.getResponseMessage();
 
-        } catch (IOException e) {
-            return e.getMessage();
+        } catch (IOException exp) {
+            Log.i("direction",exp.getMessage());
+            return exp.getMessage();
         }
     }
 

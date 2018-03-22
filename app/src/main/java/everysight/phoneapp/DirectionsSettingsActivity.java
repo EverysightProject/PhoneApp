@@ -196,19 +196,6 @@ public class DirectionsSettingsActivity extends AppCompatActivity implements
             return null;
         }
         RouteParameters routeParameters = new RouteParameters(locInput,destInput);
-
-        routeParameters.setAlternatives(true);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.rideOptions);
-        int selected = tabLayout.getSelectedTabPosition();
-        switch (selected)
-        {
-            case TAB_DRIVE: routeParameters.setTravelMode(TravelMode.DRIVING); break;
-            case TAB_TRANSIT: routeParameters.setTravelMode(TravelMode.TRANSIT); break;
-            case TAB_WALK: routeParameters.setTravelMode(TravelMode.WALKING); break;
-            case TAB_CYCLE: routeParameters.setTravelMode(TravelMode.BICYCLING); break;
-            default: routeParameters.setTravelMode(TravelMode.WALKING); break;
-        }
         return routeParameters;
     }
 
