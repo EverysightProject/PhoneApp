@@ -168,9 +168,13 @@ public class DirectionsSettingsActivity extends AppCompatActivity implements
                             .build(this);
             startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE_DEST);
         } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
             // TODO: Handle the error.
         } catch (GooglePlayServicesNotAvailableException e) {
             // TODO: Handle the error.
+            e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 

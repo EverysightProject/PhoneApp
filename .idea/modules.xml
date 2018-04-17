@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/PhoneApp.iml" filepath="$PROJECT_DIR$/PhoneApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/google-maps-services-java-master/google-maps-services-java-master.iml" filepath="$PROJECT_DIR$/google-maps-services-java-master/google-maps-services-java-master.iml" />
+      <module fileurl="file://C:\android_work\project\PhoneApp\google-maps-services-java-master\google-maps-services-java-master.iml" filepath="C:\android_work\project\PhoneApp\google-maps-services-java-master\google-maps-services-java-master.iml" />
     </modules>
   </component>
 </project>

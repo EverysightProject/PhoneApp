@@ -415,7 +415,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     for( int j=0;j<dr.routes[selectedRoute].legs[i].steps.length;j++)
                     {
                         doStep(dr.routes[selectedRoute].legs[i].steps[j]);
-                        if(stop)
+                       // if(stop)
                             return;
                     }
                 }
@@ -439,7 +439,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 }
 
-                do {
+                //do {
                     try {
                         dm.Direction = mDirection;
                         dm.DistanceMeter = (int) location.distanceTo(endLocation);
@@ -457,11 +457,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             String message = gson.toJson(dm);
                             bt.write(message);
                             Log.i("Directions Thread","Sent:" + message);
+                            stop = true;
                         }
                         if (Thread.interrupted())
                         {
                             stop = true;
-                            break;
+                          //  break;
                         }
                         else
                             Thread.sleep(1000);
@@ -470,7 +471,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     {
                         Log.i("Direction Tread", e.toString());
                     }
-                }while(dm.DistanceMeter >= 10);
+               // }while(dm.DistanceMeter >= 10);
             }
         };
 
@@ -555,6 +556,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                             }
                                             catch(Exception e)
                                             {
+                                                e.printStackTrace();
                                             }
                                         }
                                         @Override
